@@ -1,21 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-const String kWhatsAppNumber = '2250700000000';
-const int kTravelFee = 10000;
 
 void main() {
-  runApp(const BeautyBookingApp());
 }
 
-class BeautyBookingApp extends StatelessWidget {
-  const BeautyBookingApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Booking Beauté',
       theme: ThemeData(
         colorScheme: const ColorScheme.light(
           primary: Colors.black,
@@ -39,32 +30,15 @@ class BeautyBookingApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const BookingFlowPage(),
     );
   }
 }
 
-class ServiceItem {
-  ServiceItem({
-    required this.id,
-    required this.name,
-    required this.price,
-    this.selected = false,
-  });
 
-  final String id;
-  final String name;
-  final int price;
-  bool selected;
-}
 
-enum ServiceLocation { studio, travel }
 
-class BookingFlowPage extends StatefulWidget {
-  const BookingFlowPage({super.key});
 
   @override
-  State<BookingFlowPage> createState() => _BookingFlowPageState();
 }
 
 class _BookingFlowPageState extends State<BookingFlowPage> {
@@ -486,27 +460,7 @@ ${_location == ServiceLocation.travel ? 'Adresse: ${_addressCtrl.text.trim()}\n'
       child: Padding(
         padding: const EdgeInsets.all(14),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Lieu de la prestation',
-              style: TextStyle(fontWeight: FontWeight.w600),
-            ),
-            RadioListTile<ServiceLocation>(
-              value: ServiceLocation.studio,
-              groupValue: _location,
-              activeColor: Colors.black,
-              title: const Text('Au studio'),
-              subtitle: const Text('Aucun supplément'),
-              onChanged: (value) => setState(() => _location = value!),
-            ),
-            RadioListTile<ServiceLocation>(
-              value: ServiceLocation.travel,
-              groupValue: _location,
-              activeColor: Colors.black,
-              title: const Text('Déplacement'),
-              subtitle: const Text('+10 000 FCFA'),
-              onChanged: (value) => setState(() => _location = value!),
             ),
           ],
         ),
