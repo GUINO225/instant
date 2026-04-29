@@ -1,4 +1,5 @@
 name: instant_maquillage_booking
+<<<<<<< HEAD
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -34,10 +35,25 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+=======
+description: Application Flutter Web de réservation beauté/maquillage
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  url_launcher: ^6.3.0
+>>>>>>> 59c0c4a2b80fb1dd328b187e237fcff67603a4f2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+<<<<<<< HEAD
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -87,3 +103,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+=======
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+>>>>>>> 59c0c4a2b80fb1dd328b187e237fcff67603a4f2
