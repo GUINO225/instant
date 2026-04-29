@@ -28,6 +28,7 @@ class BeautyBookingApp extends StatelessWidget {
             color: Colors.black,
             fontWeight: FontWeight.w300,
             letterSpacing: 0.2,
+            height: 1.2,
           ),
           headlineSmall: TextStyle(
             color: Colors.black,
@@ -72,15 +73,11 @@ class _BookingFlowPageState extends State<BookingFlowPage> {
   final List<ServiceItem> _services = [
     ServiceItem(
       id: 'event',
-      name: 'Maquillage événement / simple',
+      name: 'Maquillage événement / maquillage simple',
       price: 25000,
     ),
     ServiceItem(id: 'bride', name: 'Maquillage mariée', price: 35000),
-    ServiceItem(
-      id: 'class',
-      name: 'Cours d’auto-maquillage',
-      price: 50000,
-    ),
+    ServiceItem(id: 'class', name: 'Cours d’auto-maquillage', price: 50000),
     ServiceItem(
       id: 'advice',
       name: 'Conseils beauté coiffure',
@@ -192,7 +189,9 @@ class _BookingFlowPageState extends State<BookingFlowPage> {
   }
 
   Future<void> _sendToWhatsApp() async {
-    final services = _selectedServices.map((e) => '- ${e.name} (${_formatPrice(e.price)})').join('\n');
+    final services = _selectedServices
+        .map((e) => '- ${e.name} (${_formatPrice(e.price)})')
+        .join('\n');
 
     final message = '''Bonjour, je souhaite confirmer une réservation beauté.
 
@@ -241,7 +240,7 @@ ${_location == ServiceLocation.travel ? 'Adresse: ${_addressCtrl.text.trim()}\n'
 
   @override
   Widget build(BuildContext context) {
-    final maxWidth = MediaQuery.of(context).size.width < 700 ? 500.0 : 780.0;
+    final maxWidth = MediaQuery.of(context).size.width < 700 ? 520.0 : 820.0;
 
     return Scaffold(
       body: Center(
@@ -272,7 +271,7 @@ ${_location == ServiceLocation.travel ? 'Adresse: ${_addressCtrl.text.trim()}\n'
         ),
         const SizedBox(height: 12),
         const Text(
-          'Un formulaire rapide pour choisir vos prestations et confirmer votre rendez-vous.',
+          'Choisissez vos services, calculez le total et confirmez sur WhatsApp en quelques secondes.',
         ),
         const SizedBox(height: 36),
         SizedBox(
@@ -515,7 +514,11 @@ ${_location == ServiceLocation.travel ? 'Adresse: ${_addressCtrl.text.trim()}\n'
     );
   }
 
-  Widget _buildTotalAndAction(int total, {required String label, VoidCallback? onPressed}) {
+  Widget _buildTotalAndAction(
+    int total, {
+    required String label,
+    VoidCallback? onPressed,
+  }) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
