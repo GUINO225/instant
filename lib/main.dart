@@ -5,12 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'firebase_options.dart';
+
 const int kTravelFee = 10000;
 const String kDefaultWhatsAppNumber = '2250700000000';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const BookingApp());
+
+  String? firebaseInitError;
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    firebaseInitError = e.toString();
+  }
+
+  runApp(BookingApp(firebaseInitError: firebaseInitError));
 }
 
 enum ReservationStatus { pending, confirmed, completed, cancelled, postponed }
@@ -99,7 +111,9 @@ class Reservation {
 }
 
 class BookingApp extends StatelessWidget {
-  const BookingApp({super.key});
+  const BookingApp({super.key, this.firebaseInitError});
+
+  final String? firebaseInitError;
 
   @override
   Widget build(BuildContext context) {
@@ -111,18 +125,16 @@ class BookingApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         colorScheme: const ColorScheme.light(primary: Colors.black),
       ),
-      home: FutureBuilder(
-        future: Firebase.initializeApp(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const Scaffold(body: Center(child: CircularProgressIndicator()));
-          }
-          if (snapshot.hasError) {
-            return const Scaffold(body: Center(child: Text('Configurer Firebase pour continuer.')));
-          }
-          return const RootShell();
-        },
-      ),
+      home: firebaseInitError == null
+          ? const RootShell()
+          : Scaffold(
+              body: Center(
+                child: Text(
+                  "Erreur d'initialisation Firebase: $firebaseInitError",
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
     );
   }
 }
