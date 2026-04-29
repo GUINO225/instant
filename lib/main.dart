@@ -315,7 +315,40 @@ class _ReservationPageState extends State<ReservationPage> {
 }
 
 class AdminDashboardPage extends StatelessWidget { const AdminDashboardPage({super.key}); @override Widget build(BuildContext context) { return DefaultTabController(length: 9, child: Scaffold(appBar: AppBar(title: const Text('Dashboard propriétaire'), bottom: const TabBar(isScrollable: true, tabs: [Tab(text: 'Vue'), Tab(text: 'Calendrier'), Tab(text: 'À confirmer'), Tab(text: 'Confirmées'), Tab(text: 'Accomplies'), Tab(text: 'Historique'), Tab(text: 'Clientes'), Tab(text: 'Gains'), Tab(text: 'Paramètres')]), actions: [Padding(padding: const EdgeInsets.symmetric(horizontal: 8), child: _SecondaryButton(onPressed: AuthService().signOut, label: 'Déconnexion'))]), body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(stream: ReservationService().allReservations(), builder: (context, snap) { if (snap.hasError) return Center(child: Text('Erreur: ${snap.error}')); if (snap.connectionState == ConnectionState.waiting && !snap.hasData) return const Center(child: CircularProgressIndicator()); final rows = snap.data?.docs.map((e) => e.data()).toList() ?? []; Widget statusList(String status) => ListView(padding: const EdgeInsets.all(16), children: rows.where((r) => r['statutReservation'] == status).map((r) => _AdminReservationTile(r: r)).toList()); return TabBarView(children: [_Overview(rows: rows), ListView(children: const [ListTile(title: Text('Vue calendrier'))]), statusList('En attente'), statusList('Confirmée'), statusList('Accomplie'), ListView(padding: const EdgeInsets.all(16), children: rows.map((r) => _AdminReservationTile(r: r)).toList()), _ClientsPage(rows: rows), _EarningsPage(rows: rows), const ListTile(title: Text('Paramètres Firestore: settings/booking'))]); }))); } }
-class _AdminReservationTile extends StatelessWidget { const _AdminReservationTile({required this.r}); final Map<String, dynamic> r; @override Widget build(BuildContext context) { final prestations = (r['prestations'] as List? ?? []).map((e) => '${e['nom']} • ${e['prixUnitaire']} x ${e['quantite']} ${e['typeQuantite']} = ${e['total']} FCFA').join('\n'); return Card(child: ListTile(title: Text('${r['clientName']} • ${r['total']} FCFA'), subtitle: Text('${r['clientPhone']} | ${r['clientEmail']}\n$prestations\n${r['lieu']} ${r['adresse'] ?? ''}'), trailing: PopupMenuButton<String>(onSelected: (v) => ReservationService().updateStatus(id: r['id'], reservationStatus: v.startsWith('PAY_') ? null : v, paymentStatus: v.startsWith('PAY_') ? v.replaceFirst('PAY_', '') : null), itemBuilder: (_) => const [PopupMenuItem(value: 'Confirmée', child: Text('Confirmer')), PopupMenuItem(value: 'Annulée', child: Text('Annuler')), PopupMenuItem(value: 'Reportée', child: Text('Reporter')), PopupMenuItem(value: 'Accomplie', child: Text('Accomplie')), PopupMenuItem(value: 'PAY_Acompte payé', child: Text('Acompte payé')), PopupMenuItem(value: 'PAY_Soldé', child: Text('Soldé'))])))); } }
+class _AdminReservationTile extends StatelessWidget {
+  const _AdminReservationTile({required this.r});
+
+  final Map<String, dynamic> r;
+
+  @override
+  Widget build(BuildContext context) {
+    final prestations = (r['prestations'] as List? ?? [])
+        .map((e) => '${e['nom']} • ${e['prixUnitaire']} x ${e['quantite']} ${e['typeQuantite']} = ${e['total']} FCFA')
+        .join('\n');
+
+    return Card(
+      child: ListTile(
+        title: Text('${r['clientName']} • ${r['total']} FCFA'),
+        subtitle: Text('${r['clientPhone']} | ${r['clientEmail']}\n$prestations\n${r['lieu']} ${r['adresse'] ?? ''}'),
+        trailing: PopupMenuButton<String>(
+          onSelected: (v) => ReservationService().updateStatus(
+            id: r['id'],
+            reservationStatus: v.startsWith('PAY_') ? null : v,
+            paymentStatus: v.startsWith('PAY_') ? v.replaceFirst('PAY_', '') : null,
+          ),
+          itemBuilder: (_) => const [
+            PopupMenuItem(value: 'Confirmée', child: Text('Confirmer')),
+            PopupMenuItem(value: 'Annulée', child: Text('Annuler')),
+            PopupMenuItem(value: 'Reportée', child: Text('Reporter')),
+            PopupMenuItem(value: 'Accomplie', child: Text('Accomplie')),
+            PopupMenuItem(value: 'PAY_Acompte payé', child: Text('Acompte payé')),
+            PopupMenuItem(value: 'PAY_Soldé', child: Text('Soldé')),
+          ],
+        ),
+      ),
+    );
+  }
+}
 class _Overview extends StatelessWidget { const _Overview({required this.rows}); final List<Map<String, dynamic>> rows; @override Widget build(BuildContext context) { int sumBy(bool Function(Map<String, dynamic>) f) => rows.where(f).fold(0, (s, r) => s + ((r['total'] ?? 0) as int)); return ListView(padding: const EdgeInsets.all(16), children: [Card(child: ListTile(title: const Text('Réservations en attente'), trailing: _StatusBadge(label: '${rows.where((r) => r['statutReservation'] == 'En attente').length}'))), Card(child: ListTile(title: const Text('Réservations confirmées'), trailing: _StatusBadge(label: '${rows.where((r) => r['statutReservation'] == 'Confirmée').length}'))), Card(child: ListTile(title: const Text('Prestations accomplies'), trailing: _StatusBadge(label: '${rows.where((r) => r['statutReservation'] == 'Accomplie').length}'))), Card(child: ListTile(title: const Text('Gains estimés'), trailing: Text('${sumBy((r) => r['statutReservation'] == 'En attente' || r['statutReservation'] == 'Confirmée')} FCFA')))]); } }
 class _ClientsPage extends StatelessWidget { const _ClientsPage({required this.rows}); final List<Map<String, dynamic>> rows; @override Widget build(BuildContext context) { final byClient = <String, List<Map<String, dynamic>>>{}; for (final r in rows) { final key = (r['clientEmail'] ?? '').toString(); byClient.putIfAbsent(key, () => []).add(r);} return ListView(padding: const EdgeInsets.all(16), children: byClient.entries.map((e) => Card(child: ListTile(title: Text(e.value.first['clientName']), subtitle: Text('${e.key} • ${e.value.length} réservations')))).toList()); } }
 class _EarningsPage extends StatelessWidget { const _EarningsPage({required this.rows}); final List<Map<String, dynamic>> rows; @override Widget build(BuildContext context) { final nonSolde = rows.where((r) => r['statutPaiement'] != 'Soldé').fold(0, (s, r) => s + ((r['total'] ?? 0) as int)); final qtyByService = <String, int>{}; for (final r in rows) { for (final p in (r['prestations'] as List? ?? [])) { qtyByService[p['nom'].toString()] = (qtyByService[p['nom'].toString()] ?? 0) + ((p['quantite'] ?? 1) as int); } } return ListView(padding: const EdgeInsets.all(16), children: [Card(child: ListTile(title: const Text('Montant non soldé'), trailing: Text('$nonSolde FCFA'))), ...qtyByService.entries.map((e) => Card(child: ListTile(title: Text(e.key), trailing: Text('${e.value} unités'))))]); } }
