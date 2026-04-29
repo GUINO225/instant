@@ -212,7 +212,14 @@ class _ReservationPageState extends State<ReservationPage> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        ...defaultServices.map((s) => CheckboxListTile(value: selected.contains(s), onChanged: (v) => setState(() => v == true ? selected.add(s) : selected.remove(s)), title: Text(s['nom']), subtitle: Text('${s['prix']} FCFA'))),
+        ...defaultServices.map(
+          (s) => CheckboxListTile(
+            value: selected.contains(s),
+            onChanged: (v) => setState(() => v == true ? selected.add(s) : selected.remove(s)),
+            title: Text(s['nom'] as String),
+            subtitle: Text('${s['prix']} FCFA'),
+          ),
+        ),
         DropdownButtonFormField<String>(value: lieu, items: const [DropdownMenuItem(value: 'Studio', child: Text('Studio')), DropdownMenuItem(value: 'Déplacement', child: Text('Déplacement (+10 000 FCFA)'))], onChanged: (v) => setState(() => lieu = v!)),
         TextField(controller: name, onChanged: (_) => setState(() {}), decoration: const InputDecoration(labelText: 'Nom complet')),
         TextField(controller: phone, onChanged: (_) => setState(() {}), decoration: const InputDecoration(labelText: 'Téléphone WhatsApp')),
