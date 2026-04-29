@@ -62,7 +62,20 @@ class _SplashGateState extends State<SplashGate> with SingleTickerProviderStateM
   }
 
   @override
-  Widget build(BuildContext context) => done ? widget.child : Scaffold(backgroundColor: _black, body: Center(child: FadeTransition(opacity: c, child: Text('Instant Maquillage', style: GoogleFonts.playfairDisplay(color: _white, fontSize: 36))));
+  Widget build(BuildContext context) => done
+      ? widget.child
+      : Scaffold(
+          backgroundColor: _black,
+          body: Center(
+            child: FadeTransition(
+              opacity: c,
+              child: Text(
+                'Instant Maquillage',
+                style: GoogleFonts.playfairDisplay(color: _white, fontSize: 36),
+              ),
+            ),
+          ),
+        );
 }
 
 class LandingPage extends StatelessWidget {
