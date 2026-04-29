@@ -12,8 +12,10 @@ const reservationStatuses = [
 const paymentStatuses = ['Non soldé', 'Acompte payé', 'Soldé'];
 
 const defaultServices = [
-  {'nom': 'Maquillage événement / maquillage simple', 'prix': 25000},
-  {'nom': 'Maquillage mariée', 'prix': 35000},
-  {'nom': 'Cours d’auto-maquillage', 'prix': 50000},
-  {'nom': 'Conseils beauté coiffure', 'prix': 60000},
+  {'nom': 'Maquillage événement / maquillage simple', 'prixUnitaire': 25000, 'typeQuantite': 'personnes', 'quantityLabel': 'Nombre de personnes'},
+  {'nom': 'Maquillage mariée', 'prixUnitaire': 35000, 'typeQuantite': 'personnes', 'quantityLabel': 'Nombre de personnes'},
+  {'nom': 'Cours d’auto-maquillage', 'prixUnitaire': 50000, 'typeQuantite': 'session', 'quantityLabel': 'Session'},
+  {'nom': 'Conseils beauté coiffure', 'prixUnitaire': 60000, 'typeQuantite': 'personnes', 'quantityLabel': 'Nombre de personnes'},
+  {'nom': 'Shooting photo', 'prixUnitaire': 100000, 'typeQuantite': 'photos', 'quantityLabel': 'Nombre de photos'},
+  {'nom': 'Studio', 'prixUnitaire': 0, 'typeQuantite': 'session', 'quantityLabel': 'Session'},
 ];
