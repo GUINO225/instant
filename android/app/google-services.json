@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "366608576848",
+    "project_id": "instant-maquillage",
+    "storage_bucket": "instant-maquillage.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:366608576848:android:dac6b4e3b0881542cdfc55",
+        "android_client_info": {
+          "package_name": "com.company.instant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "366608576848-1vup5t2uf6ae50m9eap4ier30bn5738e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.company.instant",
+            "certificate_hash": "01ebe2821be0975f1911aed36713e19c1316a56a"
+          }
+        },
+        {
+          "client_id": "366608576848-ff2jgdksj1813ohicktdl54s1svhar7d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcLbPNJJ5Qmmc4-6-zwX0s3N8ysadmCt0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "366608576848-ff2jgdksj1813ohicktdl54s1svhar7d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:366608576848:android:62bfa2c613b04761cdfc55",
+        "android_client_info": {
+          "package_name": "com.company.instant.instant_maquillage_booking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "366608576848-ff2jgdksj1813ohicktdl54s1svhar7d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcLbPNJJ5Qmmc4-6-zwX0s3N8ysadmCt0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "366608576848-ff2jgdksj1813ohicktdl54s1svhar7d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
