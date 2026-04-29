@@ -1,12 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-void main() {
+const int kTravelFee = 10000;
+const String kWhatsAppNumber = '2250700000000';
+
+enum ServiceLocation { studio, travel }
+
+class ServiceItem {
+  ServiceItem({
+    required this.id,
+    required this.name,
+    required this.price,
+    this.selected = false,
+  });
+
+  final String id;
+  final String name;
+  final int price;
+  bool selected;
 }
 
+void main() {
+  runApp(const BookingApp());
+}
+
+class BookingApp extends StatelessWidget {
+  const BookingApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Instant Maquillage Booking',
+      home: const BookingFlowPage(),
       theme: ThemeData(
         colorScheme: const ColorScheme.light(
           primary: Colors.black,
@@ -34,11 +60,11 @@ void main() {
   }
 }
 
-
-
-
+class BookingFlowPage extends StatefulWidget {
+  const BookingFlowPage({super.key});
 
   @override
+  State<BookingFlowPage> createState() => _BookingFlowPageState();
 }
 
 class _BookingFlowPageState extends State<BookingFlowPage> {
@@ -461,6 +487,21 @@ ${_location == ServiceLocation.travel ? 'Adresse: ${_addressCtrl.text.trim()}\n'
         padding: const EdgeInsets.all(14),
         child: Column(
           children: [
+            RadioListTile<ServiceLocation>(
+              value: ServiceLocation.studio,
+              groupValue: _location,
+              activeColor: Colors.black,
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Au studio'),
+              onChanged: (value) => setState(() => _location = value!),
+            ),
+            RadioListTile<ServiceLocation>(
+              value: ServiceLocation.travel,
+              groupValue: _location,
+              activeColor: Colors.black,
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Déplacement (+10 000 FCFA)'),
+              onChanged: (value) => setState(() => _location = value!),
             ),
           ],
         ),
