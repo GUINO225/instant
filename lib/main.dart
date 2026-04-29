@@ -94,14 +94,15 @@ class LandingPage extends StatelessWidget {
     final users = FirebaseFirestore.instance.collection('users').doc(user.uid);
     final now = FieldValue.serverTimestamp();
     final existing = await users.get();
+    final existingData = existing.data();
 
     await users.set({
       'uid': user.uid,
       'displayName': user.displayName ?? '',
       'email': user.email ?? '',
-      'phone': existing.data()?['phone'] ?? user.phoneNumber ?? '',
-      'role': existing.data()?['role'] ?? 'client',
-      'createdAt': existing.exists ? existing.data()?['createdAt'] : now,
+      'phone': existingData?['phone'] ?? user.phoneNumber ?? '',
+      'role': existingData?['role'] ?? 'client',
+      'createdAt': existingData?['createdAt'] ?? now,
       'updatedAt': now,
     }, SetOptions(merge: true));
   }
