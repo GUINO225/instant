@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() { return request.auth != null; }
+    function isAdmin() {
+      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    match /services/{serviceId} {
+      allow read: if resource.data.isActive == true || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /reservations/{reservationId} {
+      allow read: if isAdmin() || (isSignedIn() && resource.data.clientUid == request.auth.uid);
+      allow create: if isSignedIn() && request.resource.data.clientUid == request.auth.uid;
+      allow update: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
+      allow read, update: if isAdmin();
+    }
+  }
+}
