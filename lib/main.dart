@@ -82,72 +82,129 @@ class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
   @override
   Widget build(BuildContext context) {
-    const gold = Color(0xFFE6C67A);
-    const cream = Color(0xFFF7E8B5);
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFF1A1008), Color(0xFF070707), Color(0xFF000000)],
-            stops: [0.0, 0.42, 1.0],
-          ),
-        ),
-        child: Stack(
+      body: Stack(
           children: [
+            Positioned.fill(
+              child: Image.asset(
+                'assets/img/BG1.png',
+                fit: BoxFit.cover,
+              ),
+            ),
             Positioned.fill(
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Colors.black.withOpacity(.45), Colors.black.withOpacity(.78)],
+                    colors: [
+                      Colors.black.withOpacity(.20),
+                      Colors.black.withOpacity(.55),
+                      Colors.black.withOpacity(.92),
+                    ],
+                    stops: const [0.0, 0.52, 1.0],
                   ),
                 ),
               ),
             ),
             SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                padding: const EdgeInsets.fromLTRB(26, 16, 26, 22),
                 child: Column(
                   children: [
-                    const Spacer(flex: 2),
-                    Icon(Icons.auto_awesome, color: gold, size: 90),
-                    const SizedBox(height: 14),
-                    Text('GLOW BOOK', style: GoogleFonts.playfairDisplay(color: cream, fontSize: 56, letterSpacing: 1.2)),
-                    const SizedBox(height: 10),
-                    Text('LA BEAUTÉ, À PORTÉE DE MAIN', style: GoogleFonts.montserrat(color: Colors.white70, fontSize: 13, letterSpacing: 4)),
+                    const Spacer(flex: 6),
+                    Image.asset('assets/img/LOGO.png', width: 240),
                     const Spacer(flex: 3),
-                    Text('Réservez votre beauté', style: GoogleFonts.playfairDisplay(color: Colors.white, fontSize: 54), textAlign: TextAlign.center),
-                    Text('en quelques clics', style: GoogleFonts.playfairDisplay(color: gold, fontSize: 54), textAlign: TextAlign.center),
-                    const SizedBox(height: 16),
-                    Row(children: [Expanded(child: Divider(color: gold.withOpacity(.6))), const Padding(padding: EdgeInsets.symmetric(horizontal: 10), child: Icon(Icons.workspace_premium, color: gold, size: 22)), Expanded(child: Divider(color: gold.withOpacity(.6)))]),
-                    const SizedBox(height: 16),
-                    Text('Simple. Rapide. Professionnel.', style: GoogleFonts.montserrat(color: Colors.white70, fontSize: 20), textAlign: TextAlign.center),
-                    const Spacer(flex: 2),
+                    Text(
+                      'Réservez votre beauté\nen quelque clics',
+                      style: GoogleFonts.playfairDisplay(
+                        color: Colors.white,
+                        fontSize: 24,
+                        height: 1.34,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 40),
                     SizedBox(
                       width: double.infinity,
-                      height: 80,
+                      height: 72,
                       child: FilledButton(
                         onPressed: AuthService().signInWithGoogleWeb,
-                        style: FilledButton.styleFrom(backgroundColor: cream, foregroundColor: Colors.black, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18))),
-                        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text('COMMENCER', style: GoogleFonts.montserrat(fontWeight: FontWeight.w800, fontSize: 22)), const SizedBox(width: 20), const Icon(Icons.arrow_forward, size: 34)]),
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            const Spacer(),
+                            Text(
+                              'COMMENCER',
+                              style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 22,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                            const Spacer(),
+                            const Icon(Icons.arrow_forward, size: 46),
+                            const SizedBox(width: 6),
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(height: 18),
-                    OutlinedButton(
+                    SizedBox(
+                      width: double.infinity,
+                      height: 72,
+                      child: OutlinedButton(
                       onPressed: AuthService().signInWithGoogleWeb,
                       style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: gold.withOpacity(.85), width: 1.4),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-                        fixedSize: const Size(double.infinity, 80),
+                        side: BorderSide(color: Colors.white.withOpacity(.68), width: 2),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
-                      child: Text('SE CONNECTER', style: GoogleFonts.montserrat(color: gold, fontWeight: FontWeight.w700, fontSize: 20)),
+                      child: Text(
+                        'SE CONNECTER',
+                        style: GoogleFonts.montserrat(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ),
                     ),
                     const SizedBox(height: 18),
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [for (final i in [0, 1, 2]) Container(margin: const EdgeInsets.symmetric(horizontal: 8), width: 14, height: 14, decoration: BoxDecoration(shape: BoxShape.circle, color: i == 0 ? gold : Colors.white38))]),
-                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 28,
+                          height: 28,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 2.2),
+                          ),
+                        ),
+                        const SizedBox(width: 18),
+                        for (int i = 0; i < 2; i++)
+                          Container(
+                            margin: const EdgeInsets.only(right: 18),
+                            width: 28,
+                            height: 28,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                          ),
+                      ],
+                    ),
+                    const Spacer(flex: 1),
                   ],
                 ),
               ),
