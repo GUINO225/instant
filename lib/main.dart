@@ -211,7 +211,6 @@ class LandingPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 }
