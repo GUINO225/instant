@@ -82,13 +82,14 @@ class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
   @override
   Widget build(BuildContext context) {
+    final landingStyle = screenStyleConfig['landing']!;
     return Scaffold(
       body: Stack(
           children: [
             Positioned.fill(
               child: Image.asset(
-                'assets/img/BG1.png',
-                fit: BoxFit.cover,
+                landingStyle['backgroundImage']! as String,
+                fit: landingStyle['backgroundFit']! as BoxFit,
               ),
             ),
             Positioned.fill(
@@ -98,44 +99,44 @@ class LandingPage extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.black.withOpacity(.20),
-                      Colors.black.withOpacity(.55),
-                      Colors.black.withOpacity(.92),
+                      Colors.black.withOpacity(landingStyle['overlayTopOpacity']! as double),
+                      Colors.black.withOpacity(landingStyle['overlayMiddleOpacity']! as double),
+                      Colors.black.withOpacity(landingStyle['overlayBottomOpacity']! as double),
                     ],
-                    stops: const [0.0, 0.52, 1.0],
+                    stops: landingStyle['overlayStops']! as List<double>,
                   ),
                 ),
               ),
             ),
             SafeArea(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(26, 16, 26, 22),
+                padding: EdgeInsets.fromLTRB(landingStyle['paddingLeft']! as double, landingStyle['paddingTop']! as double, landingStyle['paddingRight']! as double, landingStyle['paddingBottom']! as double),
                 child: Column(
                   children: [
-                    const Spacer(flex: 6),
-                    Image.asset('assets/img/LOGO.png', width: 240),
-                    const Spacer(flex: 3),
+                    Spacer(flex: landingStyle['topSpacerFlex']! as int),
+                    Image.asset(landingStyle['logoImage']! as String, width: landingStyle['logoWidth']! as double),
+                    Spacer(flex: landingStyle['middleSpacerFlex']! as int),
                     Text(
                       screenTextConfig['landing']!['tagline']!,
                       style: GoogleFonts.playfairDisplay(
                         color: Colors.white,
-                        fontSize: 24,
-                        height: 1.34,
-                        fontWeight: FontWeight.w400,
+                        fontSize: landingStyle['taglineFontSize']! as double,
+                        height: landingStyle['taglineLineHeight']! as double,
+                        fontWeight: landingStyle['taglineWeight']! as FontWeight,
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 40),
+                    SizedBox(height: landingStyle['ctaVerticalGap']! as double),
                     SizedBox(
                       width: double.infinity,
-                      height: 72,
+                      height: landingStyle['buttonHeight']! as double,
                       child: FilledButton(
                         onPressed: AuthService().signInWithGoogleWeb,
                         style: FilledButton.styleFrom(
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(landingStyle['buttonRadius']! as double),
                           ),
                         ),
                         child: Row(
@@ -144,59 +145,59 @@ class LandingPage extends StatelessWidget {
                             Text(
                               screenTextConfig['landing']!['primaryCta']!,
                               style: GoogleFonts.montserrat(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 22,
-                                letterSpacing: screenStyleConfig['landing']!['primaryCtaLetterSpacing']! as double,
+                                fontWeight: landingStyle['primaryCtaWeight']! as FontWeight,
+                                fontSize: landingStyle['primaryCtaFontSize']! as double,
+                                letterSpacing: landingStyle['primaryCtaLetterSpacing']! as double,
                               ),
                             ),
                             const Spacer(),
-                            const Icon(Icons.arrow_forward, size: 46),
-                            const SizedBox(width: 6),
+                            Icon(Icons.arrow_forward, size: landingStyle['primaryCtaIconSize']! as double),
+                            SizedBox(width: landingStyle['primaryCtaIconGap']! as double),
                           ],
                         ),
                       ),
                     ),
-                    const SizedBox(height: 18),
+                    SizedBox(height: landingStyle['betweenButtonsGap']! as double),
                     SizedBox(
                       width: double.infinity,
-                      height: 72,
+                      height: landingStyle['buttonHeight']! as double,
                       child: OutlinedButton(
                       onPressed: AuthService().signInWithGoogleWeb,
                       style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: Colors.white.withOpacity(.68), width: 2),
+                        side: BorderSide(color: Colors.white.withOpacity(landingStyle['secondaryBorderOpacity']! as double), width: landingStyle['secondaryBorderWidth']! as double),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(landingStyle['buttonRadius']! as double),
                         ),
                       ),
                       child: Text(
                         screenTextConfig['landing']!['secondaryCta']!,
                         style: GoogleFonts.montserrat(
                           color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 20,
-                          letterSpacing: screenStyleConfig['landing']!['secondaryCtaLetterSpacing']! as double,
+                          fontWeight: landingStyle['secondaryCtaWeight']! as FontWeight,
+                          fontSize: landingStyle['secondaryCtaFontSize']! as double,
+                          letterSpacing: landingStyle['secondaryCtaLetterSpacing']! as double,
                         ),
                       ),
                     ),
                     ),
-                    const SizedBox(height: 18),
+                    SizedBox(height: landingStyle['betweenButtonsGap']! as double),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: 28,
-                          height: 28,
+                          width: landingStyle['indicatorSize']! as double,
+                          height: landingStyle['indicatorSize']! as double,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 2.2),
+                            border: Border.all(color: Colors.white, width: landingStyle['indicatorBorderWidth']! as double),
                           ),
                         ),
-                        const SizedBox(width: 18),
+                        SizedBox(width: landingStyle['indicatorGap']! as double),
                         for (int i = 0; i < 2; i++)
                           Container(
-                            margin: const EdgeInsets.only(right: 18),
-                            width: 28,
-                            height: 28,
+                            margin: EdgeInsets.only(right: landingStyle['indicatorGap']! as double),
+                            width: landingStyle['indicatorSize']! as double,
+                            height: landingStyle['indicatorSize']! as double,
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white,
@@ -204,7 +205,7 @@ class LandingPage extends StatelessWidget {
                           ),
                       ],
                     ),
-                    const Spacer(flex: 1),
+                    Spacer(flex: landingStyle['bottomSpacerFlex']! as int),
                   ],
                 ),
               ),
