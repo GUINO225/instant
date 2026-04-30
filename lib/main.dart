@@ -81,7 +81,82 @@ class _SplashGateState extends State<SplashGate> with SingleTickerProviderStateM
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
   @override
-  Widget build(BuildContext context) => Scaffold(body: Center(child: FilledButton(onPressed: AuthService().signInWithGoogleWeb, style: FilledButton.styleFrom(backgroundColor: _black), child: const Text('Connexion Google'))));
+  Widget build(BuildContext context) {
+    const gold = Color(0xFFE6C67A);
+    const cream = Color(0xFFF7E8B5);
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF1A1008), Color(0xFF070707), Color(0xFF000000)],
+            stops: [0.0, 0.42, 1.0],
+          ),
+        ),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.black.withOpacity(.45), Colors.black.withOpacity(.78)],
+                  ),
+                ),
+              ),
+            ),
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                child: Column(
+                  children: [
+                    const Spacer(flex: 2),
+                    Icon(Icons.auto_awesome, color: gold, size: 90),
+                    const SizedBox(height: 14),
+                    Text('GLOW BOOK', style: GoogleFonts.playfairDisplay(color: cream, fontSize: 56, letterSpacing: 1.2)),
+                    const SizedBox(height: 10),
+                    Text('LA BEAUTÉ, À PORTÉE DE MAIN', style: GoogleFonts.montserrat(color: Colors.white70, fontSize: 13, letterSpacing: 4)),
+                    const Spacer(flex: 3),
+                    Text('Réservez votre beauté', style: GoogleFonts.playfairDisplay(color: Colors.white, fontSize: 54), textAlign: TextAlign.center),
+                    Text('en quelques clics', style: GoogleFonts.playfairDisplay(color: gold, fontSize: 54), textAlign: TextAlign.center),
+                    const SizedBox(height: 16),
+                    Row(children: [Expanded(child: Divider(color: gold.withOpacity(.6))), const Padding(padding: EdgeInsets.symmetric(horizontal: 10), child: Icon(Icons.workspace_premium, color: gold, size: 22)), Expanded(child: Divider(color: gold.withOpacity(.6)))]),
+                    const SizedBox(height: 16),
+                    Text('Simple. Rapide. Professionnel.', style: GoogleFonts.montserrat(color: Colors.white70, fontSize: 20), textAlign: TextAlign.center),
+                    const Spacer(flex: 2),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 80,
+                      child: FilledButton(
+                        onPressed: AuthService().signInWithGoogleWeb,
+                        style: FilledButton.styleFrom(backgroundColor: cream, foregroundColor: Colors.black, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18))),
+                        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text('COMMENCER', style: GoogleFonts.montserrat(fontWeight: FontWeight.w800, fontSize: 22)), const SizedBox(width: 20), const Icon(Icons.arrow_forward, size: 34)]),
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                    OutlinedButton(
+                      onPressed: AuthService().signInWithGoogleWeb,
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: gold.withOpacity(.85), width: 1.4),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                        fixedSize: const Size(double.infinity, 80),
+                      ),
+                      child: Text('SE CONNECTER', style: GoogleFonts.montserrat(color: gold, fontWeight: FontWeight.w700, fontSize: 20)),
+                    ),
+                    const SizedBox(height: 18),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [for (final i in [0, 1, 2]) Container(margin: const EdgeInsets.symmetric(horizontal: 8), width: 14, height: 14, decoration: BoxDecoration(shape: BoxShape.circle, color: i == 0 ? gold : Colors.white38))]),
+                    const Spacer(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 String _f(int n) => '${NumberFormat('#,###', 'fr_FR').format(n).replaceAll(',', ' ')} FCFA';
