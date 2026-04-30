@@ -116,7 +116,7 @@ class LandingPage extends StatelessWidget {
                     Image.asset('assets/img/LOGO.png', width: 240),
                     const Spacer(flex: 3),
                     Text(
-                      'Réservez votre beauté\nen quelque clics',
+                      screenTextConfig['landing']!['tagline']!,
                       style: GoogleFonts.playfairDisplay(
                         color: Colors.white,
                         fontSize: 24,
@@ -142,11 +142,11 @@ class LandingPage extends StatelessWidget {
                           children: [
                             const Spacer(),
                             Text(
-                              'COMMENCER',
+                              screenTextConfig['landing']!['primaryCta']!,
                               style: GoogleFonts.montserrat(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 22,
-                                letterSpacing: 0.5,
+                                letterSpacing: screenStyleConfig['landing']!['primaryCtaLetterSpacing']! as double,
                               ),
                             ),
                             const Spacer(),
@@ -169,12 +169,12 @@ class LandingPage extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        'SE CONNECTER',
+                        screenTextConfig['landing']!['secondaryCta']!,
                         style: GoogleFonts.montserrat(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                           fontSize: 20,
-                          letterSpacing: 1,
+                          letterSpacing: screenStyleConfig['landing']!['secondaryCtaLetterSpacing']! as double,
                         ),
                       ),
                     ),
@@ -254,7 +254,7 @@ Map<String, dynamic> _normalize(Map<String, dynamic> r) {
 }
 
 class ClientDashboardPage extends StatefulWidget { const ClientDashboardPage({super.key}); @override State<ClientDashboardPage> createState() => _ClientDashboardPageState(); }
-class _ClientDashboardPageState extends State<ClientDashboardPage> { int i = 0; final tabs = const ['Accueil', 'Réserver', 'Mes réservations']; @override Widget build(BuildContext c) => Scaffold(appBar: AppBar(title: const Text('Espace cliente'), actions: [TextButton(onPressed: AuthService().signOut, child: const Text('Déconnexion'))]), body: Column(children: [Wrap(children: [for (int x = 0; x < tabs.length; x++) Padding(padding: const EdgeInsets.all(4), child: ChoiceChip(label: Text(tabs[x]), selected: i == x, onSelected: (_) => setState(() => i = x), selectedColor: _black, labelStyle: TextStyle(color: i == x ? _white : _black)))]), Expanded(child: IndexedStack(index: i, children: const [Center(child: Text('Bienvenue')), ReservationPage(), ClientReservationsView()]))])); }
+class _ClientDashboardPageState extends State<ClientDashboardPage> { int i = 0; final tabs = [screenTextConfig['clientDashboard']!['tabHome']!, screenTextConfig['clientDashboard']!['tabBook']!, screenTextConfig['clientDashboard']!['tabBookings']!]; @override Widget build(BuildContext c) => Scaffold(appBar: AppBar(title: Text(screenTextConfig['clientDashboard']!['title']!), actions: [TextButton(onPressed: AuthService().signOut, child: Text(screenTextConfig['clientDashboard']!['logout']!))]), body: Column(children: [Wrap(children: [for (int x = 0; x < tabs.length; x++) Padding(padding: const EdgeInsets.all(4), child: ChoiceChip(label: Text(tabs[x]), selected: i == x, onSelected: (_) => setState(() => i = x), selectedColor: _black, labelStyle: TextStyle(color: i == x ? _white : _black)))]), Expanded(child: IndexedStack(index: i, children: [Center(child: Text(screenTextConfig['clientDashboard']!['welcome']!)), const ReservationPage(), const ClientReservationsView()]))])); }
 
 class ReservationPage extends StatefulWidget { const ReservationPage({super.key}); @override State<ReservationPage> createState() => _ReservationPageState(); }
 class _ReservationPageState extends State<ReservationPage> {
@@ -278,7 +278,7 @@ class ClientReservationsView extends StatelessWidget { const ClientReservationsV
 Future<void> _reqReschedule(BuildContext context, String id) async { DateTime? d; TimeOfDay? t; final reason = TextEditingController(); await showDialog(context: context, builder: (_) => AlertDialog(title: const Text('Demande de report'), content: Column(mainAxisSize: MainAxisSize.min, children: [TextField(controller: reason, decoration: const InputDecoration(labelText: 'Motif')), TextButton(onPressed: () async => d = await showDatePicker(context: context, firstDate: DateTime.now(), lastDate: DateTime(2032), initialDate: DateTime.now()), child: const Text('Nouvelle date')), TextButton(onPressed: () async => t = await showTimePicker(context: context, initialTime: TimeOfDay.now()), child: const Text('Nouvelle heure'))]), actions: [FilledButton(onPressed: () async { if (d != null && t != null) { await ReservationService().updateWorkflow(id: id, bookingStatus: 'reschedule_requested', extra: {'requestedRescheduleDate': Timestamp.fromDate(d!), 'requestedRescheduleTime': t!.format(context), 'rescheduleReason': reason.text}); } if (context.mounted) Navigator.pop(context); }, child: const Text('Envoyer'))])); }
 
 class AdminDashboardPage extends StatefulWidget { const AdminDashboardPage({super.key}); @override State<AdminDashboardPage> createState() => _AdminDashboardPageState(); }
-class _AdminDashboardPageState extends State<AdminDashboardPage> { int i = 0; final tabs = const ['Vue d’ensemble', 'Demandes en attente', 'Réservations confirmées', 'Demandes de report', 'Calendrier', 'Prestations', 'Clientes', 'Finances', 'Historique', 'Paramètres']; @override Widget build(BuildContext c) => Scaffold(appBar: AppBar(title: const Text('Administration'), actions: [TextButton(onPressed: AuthService().signOut, child: const Text('Déconnexion'))]), body: Column(children: [SingleChildScrollView(scrollDirection: Axis.horizontal, child: Row(children: [for (int x = 0; x < tabs.length; x++) Padding(padding: const EdgeInsets.all(4), child: ChoiceChip(label: Text(tabs[x]), selected: i == x, onSelected: (_) => setState(() => i = x)))])), Expanded(child: IndexedStack(index: i, children: const [AdminOverviewPage(), AdminPendingPage(), AdminConfirmedPage(), AdminReschedulePage(), AdminCalendarPage(), AdminServicesPage(), AdminClientsPage(), AdminFinancePage(), AdminHistoryPage(), Center(child: Text('Paramètres'))]))])); }
+class _AdminDashboardPageState extends State<AdminDashboardPage> { int i = 0; final tabs = const ['Vue d’ensemble', 'Demandes en attente', 'Réservations confirmées', 'Demandes de report', 'Calendrier', 'Prestations', 'Clientes', 'Finances', 'Historique', 'Paramètres']; @override Widget build(BuildContext c) => Scaffold(appBar: AppBar(title: const Text('Administration'), actions: [TextButton(onPressed: AuthService().signOut, child: Text(screenTextConfig['clientDashboard']!['logout']!))]), body: Column(children: [SingleChildScrollView(scrollDirection: Axis.horizontal, child: Row(children: [for (int x = 0; x < tabs.length; x++) Padding(padding: const EdgeInsets.all(4), child: ChoiceChip(label: Text(tabs[x]), selected: i == x, onSelected: (_) => setState(() => i = x)))])), Expanded(child: IndexedStack(index: i, children: const [AdminOverviewPage(), AdminPendingPage(), AdminConfirmedPage(), AdminReschedulePage(), AdminCalendarPage(), AdminServicesPage(), AdminClientsPage(), AdminFinancePage(), AdminHistoryPage(), Center(child: Text('Paramètres'))]))])); }
 
 class _ResStream extends StatelessWidget { const _ResStream({required this.child}); final Widget Function(List<QueryDocumentSnapshot<Map<String, dynamic>>>) child; @override Widget build(BuildContext context) => StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(stream: ReservationService().allReservations(), builder: (_, s) => !s.hasData ? const Center(child: CircularProgressIndicator()) : child(s.data!.docs)); }
 class AdminOverviewPage extends StatelessWidget { const AdminOverviewPage({super.key}); @override Widget build(BuildContext context) => const Center(child: Text('Vue pro')); }
