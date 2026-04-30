@@ -1,19 +1,15 @@
 {
   "indexes": [
     {
-      "collectionGroup": "competition_scores",
+      "collectionGroup": "reservations",
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "mode",
+          "fieldPath": "clientUid",
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "percent",
-          "order": "DESCENDING"
-        },
-        {
-          "fieldPath": "durationSec",
+          "fieldPath": "date",
           "order": "ASCENDING"
         }
       ]
